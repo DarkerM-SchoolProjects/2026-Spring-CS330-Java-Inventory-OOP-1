@@ -1,7 +1,7 @@
 package edu.odu.cs.cs330.items;
 
 import java.util.Scanner;
-
+import java.util.Objects;
 /**
  * This class represents one piece of armour--as found in most video games.
  * This includes boots and helmets.
@@ -42,7 +42,14 @@ public class Armour extends Equippable {
      */
     public Armour(Armour src)
     {
-        // Complete this function.
+        super(src.getName());
+
+        this.durability = src.durability;
+        this.material = src.material;
+        this.modifier = src.modifier;
+        this.modifierLevel = src.modifierLevel;
+        this.element = src.element;
+        this.defense = src.defense;
     }
 
     /**
@@ -72,8 +79,12 @@ public class Armour extends Equippable {
     public void read(Scanner snr)
     {
         super.name    = snr.next();
-
-        // Complete this function.
+        super.material = snr.next();
+        super.durability = snr.nextInt();
+        this.defense = snr.nextInt();
+        super.modifier = snr.next();
+        super.modifierLevel = snr.nextInt();
+        super.element = snr.next();
     }
 
     /**
@@ -82,10 +93,7 @@ public class Armour extends Equippable {
     @Override
     public Item clone()
     {
-        Armour cpy = new Armour();
-
-        // Complete this function.
-
+        Armour cpy = new Armour(this);
         return cpy;
     }
 
@@ -104,9 +112,10 @@ public class Armour extends Equippable {
 
         Armour rhsItem = (Armour) rhs;
 
-        // Complete this function.
-        // Remove the placeholder return
-        return false;
+        return super.getName().equals(rhsItem.getName())
+            && this.material.equals(rhsItem.material)
+            && this.modifier.equals(rhsItem.modifier)
+            && this.element.equals(rhsItem.element);
     }
 
     /**
@@ -116,9 +125,7 @@ public class Armour extends Equippable {
     @Override
     public int hashCode()
     {
-        // Complete this function.
-        // Remove the placeholder return
-        return -1;
+        return Objects.hash(super.getName(), this.material, this.modifier, this.element);
     }
 
     /**
@@ -127,11 +134,14 @@ public class Armour extends Equippable {
     @Override
     public String toString()
     {
-
-        // Complete this function... treat the return as a hint.
         return String.join(
             System.lineSeparator(),
             String.format("  Nme: %s", super.getName()),
+            String.format("  Dur: %d", this.durability),
+            String.format("  Def: %d", this.defense),
+            String.format("  Mtl: %s", this.material),
+            String.format("  Mdr: %s (Lvl %d)", this.modifier, this.modifierLevel),
+            String.format("  Emt: %s", this.element),
             ""
         );
     }
